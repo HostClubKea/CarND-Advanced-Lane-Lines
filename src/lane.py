@@ -96,5 +96,7 @@ class Lane(object):
         x = points[np.max(points[:, 1])][0]
         return np.absolute((self.w // 2 - x) * self.perspective_transformer.xm_per_pix)
 
+
+
     def draw(self, image):
         cv2.polylines(image, [self.get_points()], False, (255, 0, 0), 2)

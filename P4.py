@@ -167,7 +167,7 @@ if False:
 
 from src.lane_tracker import  LaneTracker
 
-if False:
+if True:
     for i in range(len(test_images)):
         image = np.copy(test_images[i])
 
@@ -198,9 +198,22 @@ source = np.float32([[40, 720], [490, 482], [810, 482], [1250, 720]])
 destination = np.float32([[40, 720], [0, 0], [1280, 1], [1250, 720]])
 perspective_transformer = PerspectiveTransformer(source, destination, xm_per_pix=xm_per_pix, ym_per_pix=ym_per_pix)
 
-if True:
+if False:
     video_output_name = 'challenge_video_annotated.mp4'
     video = VideoFileClip("challenge_video.mp4")
     tracker = LaneTracker(camera_calibration, perspective_transformer, image_processor, n_windows=18)
     video_output = video.fl_image(tracker.process)
     video_output.write_videofile(video_output_name, audio=False)
+
+from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+
+
+if False:
+    ffmpeg_extract_subclip("project_video.mp4", 0, 5, targetname="project_video_short.mp4")
+    video_output_name = 'project_video_short_annotated.mp4'
+    video = VideoFileClip("project_video_short.mp4")
+    tracker = LaneTracker(camera_calibration, perspective_transformer, image_processor, n_windows=18)
+    video_output = video.fl_image(tracker.process)
+    video_output.write_videofile(video_output_name, audio=False)
+
+

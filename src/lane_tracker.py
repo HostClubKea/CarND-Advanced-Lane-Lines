@@ -89,10 +89,24 @@ class LaneTracker(object):
 
         text_x = 20 + 20 + w + w + 20 + 20
         self.draw_text(image, 'Radius of curvature:  {} m'.format(self.radius_of_curvature()), text_x, h+ 70)
-        self.draw_text(image, 'Distance (left):       {:.1f} m'.format(self.left.camera_distance()), text_x, h + 110)
-        self.draw_text(image, 'Distance (right):      {:.1f} m'.format(self.right.camera_distance()), text_x, h+ 150)
-        self.draw_text(image, 'Not found: right - {} left - {}'.format(self.right.not_found, self.left.not_found), text_x, h + 190)
+        # self.draw_text(image, 'Distance (left):       {:.1f} m'.format(self.left.camera_distance()), text_x, h + 110)
+        # self.draw_text(image, 'Distance (right):      {:.1f} m'.format(self.right.camera_distance()), text_x, h+ 150)
+        self.draw_text(image, 'Offset:      {:.1f} m'.format(self.compute_offset()), text_x, h + 110) #
+        self.draw_text(image, 'Not found: right - {} left - {}'.format(self.right.not_found, self.left.not_found), text_x, h + 150) #190
         return image
+
+    def compute_offset(self):
+        left_points = self.left.get_points()
+        x_left = left_points[np.max(left_points[:, 1])][0]
+
+        right_points = self.right.get_points()
+        x_right = right_points[np.max(right_points[:, 1])][0]
+        lane_mid = (x_left + x_right) / 2.
+        camera_mid = self.w / 2.
+        offset = (lane_mid - camera_mid) * self.perspective_transformer.xm_per_pix
+        return offset
+
+
 
     def draw_text(self, frame, text, x, y):
         cv2.putText(frame, text, (x, y), cv2.FONT_HERSHEY_SIMPLEX, .8, (255, 255, 255), 2)

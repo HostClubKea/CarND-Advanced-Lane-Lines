@@ -163,13 +163,14 @@ Then using formulas for radius curvature from [there](http://www.intmath.com/app
 Code could be found in "./src/lane.py" in `radius_of_curvature` function
 
 
-Vehicle position also could be approximate within the lane. It's a distance between middle of the frame and position of the lane. 
+Position of the vehicle with respect to the centre of the road could be calculated by computing difference between camera position(middle of the frame) and middle of the lane ((right_lane + left_lane)/2) 
 
-Code could be found in "./src/lane.py" in `camera_distance` function
+Code could be found in "./src/lan_tracker.py" in `compute_offset` function
 
 #### 6. Output example.
 
-Pipeline for tracking lanes implemented in `src/lane_tracker.py` in the function `process()` . Here is an example of my result on a test image:
+Pipeline for tracking lanes implemented in `src/lane_tracker.py` in the function `process()` . 
+Here is an example of my result on a test image:
 
 ![alt text][image11]
 
